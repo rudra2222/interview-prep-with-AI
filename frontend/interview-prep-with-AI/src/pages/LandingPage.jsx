@@ -1,18 +1,20 @@
 import React from "react";
 import image from "../../public/interviewImage.png";
-import { data } from "../utils/data";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { LuSparkles } from "react-icons/lu";
 import Features from "../components/Cards/features";
+import Modal from "../components/Modal";
+import Login from "./Auth/Login";
+import SignUp from "./Auth/SignUp";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [openAuth, setOpenAuth] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
-  const handleAuth = (page) => {
-    setCurrentPage(page);
+  const handleAuth = () => {
+    // setCurrentPage(page);
   };
 
   return (
@@ -71,7 +73,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="w-full min-h-full relative z-10 mb-56">
+      <div className="w-full min-h-full relative z-10">
         <div>
           <section className="flex item-center justify-center -mt-36">
             <img
@@ -94,15 +96,34 @@ const LandingPage = () => {
                 <Features col={2} st={3} end={5} />
                 <Features col={3} st={5} end={8} />
                 <Features col={2} st={8} end={10} />
-
               </div>
             </section>
           </div>
         </div>
+
         <div className="text-sm bg-gray-50 text-secondary text-center p-5 mt-5">
           Made With ❤️...
         </div>
       </div>
+
+      <Modal
+        isOpen={openAuth}
+        onClose={() => {
+          setOpenAuth(false);
+          setCurrentPage("login");
+        }}
+        hideHeader
+      >
+        <div>
+          {currentPage === "login" ? (
+            <Login setCurrentPage={setCurrentPage} />
+          ) : (
+            <SignUp setCurrentPage={setCurrentPage} />
+          )}
+        </div>
+      </Modal>
+
+      {/* <div>helo</div> */}
     </>
   );
 };
