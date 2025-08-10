@@ -41,13 +41,11 @@ const loginUser = async(req , res) => {
   try {
     
     const {email , password} = req.body;
+    console.log(req.email , req.password);
     const user = await User.findOne({email});
-    if(!user){
-      return res.status(500).json({message : "Invalid email or password"});
-    }
     const isMatch = await bcrypt.compare(password , user.password);
 
-    if(!isMatch){
+    if(!user || !isMatch){
       return res.status(500).json({message : "Invalid email or password"});
     }
 
@@ -65,17 +63,16 @@ const loginUser = async(req , res) => {
 
 };
 
-const getUserProfile = async(req , res) => {
-
+const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    if(!user)return res.status(404).json({message : "User not found"});
+    if (!req.user) return res.status(404).json({ message: "User not found" });
 
-    res.json(user);
+    res.json(req.user);
   } catch (err) {
-    res.status(500).json({message : "Server error" , error : err.message});
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 
 module.exports = {registerUser , loginUser , getUserProfile};
