@@ -7,14 +7,24 @@ import Features from "../components/Cards/features";
 import Modal from "../components/Modal";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
+import { UserContext } from "../context/userContext";
+import { useContext } from "react";
+import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [openAuth, setOpenAuth] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
+  const { user } = useContext(UserContext);
+
   const handleAuth = () => {
     // setCurrentPage(page);
+    if (!user) {
+      setOpenAuth(true);
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -28,13 +38,17 @@ const LandingPage = () => {
               Interview preparation with AI
             </div>
 
-            <div className="">
-              <button
-                className="bg-linear-to-r from-[#ff9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white border border-white transition-colors  cursor-pointer"
-                onClick={() => setOpenAuth(true)}
-              >
-                Login / Signup
-              </button>
+            <div>
+              {user ? (
+                <ProfileInfoCard />
+              ) : (
+                <button
+                  className="bg-linear-to-r from-[#ff9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white border border-white transition-colors  cursor-pointer"
+                  onClick={() => setOpenAuth(true)}
+                >
+                  Login / Signup
+                </button>
+              )}
             </div>
           </header>
 

@@ -5,13 +5,13 @@ const ai = new GoogleGenAI({ apiKey : process.env.GEMINI_API_KEY});
 
 const generateInterviewQuestions = async (req , res) => {
   try{
-    const {role , experience , topicToFocus , numberOfQuestions } = req.body;
+    const {role , experience , topicsToFocus , numberOfQuestions } = req.body;
 
-    if(!role || !experience || ! topicToFocus || ! numberOfQuestions){
+    if(!role || !experience || !topicsToFocus || !numberOfQuestions){
       return res.status(400).json({message : "Missing required fields"});
     }
 
-    const prompt = questionAnswerPrompt(role , experience , topicToFocus , numberOfQuestions);
+    const prompt = questionAnswerPrompt(role , experience , topicsToFocus , numberOfQuestions);
 
     const response = await ai.models.generateContent({
       model : "gemini-2.0-flash-lite",

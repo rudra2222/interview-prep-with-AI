@@ -12,7 +12,7 @@ const Input = ({ value, onChange, label, placeholder, type }) => {
       <label className="text-base font-semibold text-orange-700 block">
         {label}
       </label>
-      <div className="input-box flex items-center border border-orange-400 rounded-lg px-3 py-2 bg-orange-50 focus-within:ring-2 focus-within:ring-orange-400 relative mb-4">
+      <div className="input-box flex items-center border border-orange-400 rounded-lg px-3 py-2 bg-orange-50 focus-within:ring-2 focus-within:ring-orange-400 relative mb-3">
         <input
           className="flex-1 outline-none bg-transparent text-orange-700 placeholder:text-orange-300"
           type={type === "password" ? (showPass ? "text" : "password") : type}

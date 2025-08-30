@@ -2,39 +2,53 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const {updateUser} = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if(!email) {
+    if (!email) {
       setError("Email cannot be empty.");
       return;
     }
-    if(!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    
-    if(!password || password.trim() === "" || password.length < 6) {
+    if (!password || password.trim() === "" || password.length < 6) {
       setError("Password must be at least 6 characters long.");
       return;
     }
     setError(null);
-    try{
-      // Your login logic here
-    }
-    catch(e){
-      if(e.response && e.response.data.message) {
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
+    } catch (e) {
+      if (e.response && e.response.data.message) {
         setError(e.response.data.message);
-      }else {
+      } else {
         setError("An unexpected error occurred. Please try again.");
       }
     }
@@ -65,9 +79,7 @@ const Login = ({ setCurrentPage }) => {
           type="password"
         />
 
-        {error && (
-          <p className="text-red-500 text-xs mt-2">{error}</p>
-        )}
+        {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
         <button
           type="submit"
           className="w-full bg-gradient-to-r from-black to-black hover:from-[#e88d55] hover:to-[#dd7c1b] text-white font-semibold py-2 mt-6 rounded-lg transition-colors cursor-pointer"

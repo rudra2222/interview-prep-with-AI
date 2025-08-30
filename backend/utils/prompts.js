@@ -18,7 +18,9 @@ Requirements:
 ]
 3. Each "question" should be concise but challenging, matching the candidate's experience level.
 4. Each "answer" should be technically correct as well beginner-friendly.
-5. No markdown, no explanations, no comments — only the JSON object.
+5. No markdown, no comments — only the JSON object.
+6. if needed then give small block of code.
+7. give needed explanation.
 
 Now generate the output.
 `
