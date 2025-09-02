@@ -39,13 +39,14 @@ exports.getMySessions = async (req , res)=>{
   try{
     const sessions = await Session.find({user : req.user.id})
       .sort({createdAt : -1})
-      .populate("questions");
+      // .populate("questions");
+      
     res.status(200).json(sessions);
   }
   catch(err){
     res.status(500).json({success : false , message : "Server Error"});
   }
-  
+
 }
 
 exports.getSessionById = async (req , res) => {
