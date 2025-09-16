@@ -4,9 +4,7 @@ import { CARD_BG } from "../../utils/data";
 import toast from "react-hot-toast";
 import DashboardLayout from "../../components/Layouts/DashboardLayout";
 import { useNavigate } from "react-router-dom";
-// import axiosInstance from "../../utils/axiosInstance";
 import axiosInstance from "../../utils/axiosInstance.js";
-
 import { API_PATHS } from "../../utils/apiPaths";
 import SummaryCard from "../../components/Cards/SummaryCard";
 import moment from "moment";
